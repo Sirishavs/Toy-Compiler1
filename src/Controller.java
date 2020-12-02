@@ -8,15 +8,13 @@ public class Controller {
     public static void main(String args[])
     {
 
+        char expr[]= new char[20]; //storing the input from command line
+        char operators[] = new char[20]; //storing expression and operator
+        char variables[] = new char[20]; // storing variable or identifier
+        int constants[] = new int[20]; //storing literals
+        int cnt,i,j,dg; //cnt to store string length
+        int vc =0,lc=0,oc=0;
 
-        char expr[]= new char[20];
-        char operators[] = new char[100]; //storing expression and operator
-        char variables[][] = new char[20][20]; // storing variable or identifier
-        int constants[] = new int[100];
-        int ascii[] = new int[100]; //for storing ascii, constants values of expression
-        int cnt,i,number=0; //cnt to store string length
-        int j=-1,k=-1,l=-1,n=0,m=0; //counters for filling arrays
-        int pr[] = new int[10]; //counters for printing identifier arrays
 
 
         System.out.println("\n LEXICAL ANALYZER FOR AN EXPRESSION \n\n");
@@ -32,81 +30,63 @@ public class Controller {
                 buff.append(noSpaces);
             }
             expr = buff.toString().toCharArray();
-            System.out.println(Arrays.toString(expr));
+            System.out.println("Array "+Arrays.toString(expr));
         }catch (Exception e) {
             e.printStackTrace();
         }
-
-
         cnt = expr.length;
-        System.out.println("String length" + cnt); //To display string length
+        System.out.println("String length " + cnt); //To display string length
 
-        for (i = 0; i < cnt; ++i) //to store ascii values in array ascii
-        {
-            ascii[i] = (int)expr[i];
-            System.out.println("ASCII values "+(int)expr[i]);
-        }
+        for (i = 0; i < cnt; i++) {
 
-
-
-        for (i = 0; i < cnt; ++i) {
-
-            if (isDigit(expr[i])) // current element to change to be digit
-            {
-                while (isDigit(expr[i])) //Run loop until successive elements are digits
-                {
-                    number = 10 * number + ascii[i] - '0';
-                    i++;
-                }
-                j++;
-                constants[j] = number;
-                number = 0;
-            }
             if( isLetter(expr[i]) ) //Condition for current element to be a variable
             {
-                //  while( isLetter(expr[i]) || isDigit(expr[i]) || expr[i]=='_' ) //Run loop till next element is a letter or digit.
-                while( isLetter(expr[i]))
+                    variables[vc]=expr[i];
+                    vc++;
+            }
+
+            else if(expr[i] == '+' || expr[i] == '-' || expr[i] == '/' || expr[i] == '*' || expr[i] == '=' || expr[i] == '^') // Conditions to check for operators
                 {
-                    k++;
-                    variables[m][k]=expr[i];
+                    operators[oc] = expr[i];
+                    oc++;
+                }
+            else if(isDigit(expr[i])) // current element to change to be digit
+            {
+                dg= (expr[i]-'0');
+                i=i+1;
+
+                if (isDigit(expr[i])) //Run loop until successive elements are digits
+                {
+                    dg = dg*10 + (expr[i]-'0');
                     i++;
                 }
-                m++;
-                pr[n]=k;
-                n++;
-                k=-1;
+                i= i-1;
+                constants[lc] = dg;
+                lc++;
             }
-            if(expr[i]=='+'||expr[i]=='-'||expr[i]=='/'|| expr[i]=='*'|| expr[i]=='='|| expr[i]=='^') // Conditions to check for operators
-            {
-                l++;
-                operators[l]= expr[i];
-            }
+
+
 
         }
 
-//——————–To Print the Literals——————————-//
+
         System.out.printf("\nThe literals are: \n");
-        for(i=0;i<=j;i++)
+        for(j=0;j<lc;j++)
         {
-            System.out.println(""+constants[i]);
+            System.out.println(""+constants[j]);
         }
 
-//——————–To print the Operators——————————-//
         System.out.println("\nThe operators are: \n");
-        for(i=0;i<=l;i++)
+        for(j=0;j<oc;j++)
         {
-            System.out.println(""+operators[i]);
+            System.out.println(""+operators[j]);
         }
 
-//——————–To Print the Varibles——————————-//
         System.out.println("\nThe variables are: \n");
-        for(i=0;i<m;i++)
+        for(j=0;j<vc;j++)
         {
-            //System.out.println("\n\tid%d\t"+ i+1);
-            for(j=0;j<=pr[i];j++)
-            {
-                System.out.println("" +variables[i][j]);
-            }
+                System.out.println("" +variables[j]);
+
 
         }
     }
