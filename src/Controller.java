@@ -8,6 +8,7 @@ public class Controller {
     public static void main(String args[])
     {
 
+
         char expr[]= new char[20];
         char operators[] = new char[100]; //storing expression and operator
         char variables[][] = new char[20][20]; // storing variable or identifier
